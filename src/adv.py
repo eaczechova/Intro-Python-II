@@ -1,5 +1,5 @@
 from room import Room
-
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -38,6 +38,31 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+
+player = Player("Ewa", room['outside'])
+game_on = True
+
+def move(dir):
+    new_dir = dir[0] + "_to"
+    if hasattr(player.current_location, new_dir):
+        return getattr(player.current_location, new_dir)
+    else:
+        print(f"The move you have specified isn't allowed. Please read the instruction again. {player.current_location.name}")
+        return player.current_location
+
+print(f"Welcome to ADV Game {player.name}! {player.current_location}")
+
+while game_on:
+    if player.current_location != None:
+        user_input = input("Please enter direction [n] for north, [s] for south, [e] for east or [w] for west. If you wish to quit enter [q] ")
+    if(user_input == "q"):
+        print("I've quit the game")
+        game_on = False
+    elif user_input in ['n', 's', 'e', 'w']:
+        player.current_location = move(user_input)
+        print(player.current_location)
+    else:
+        print(f"The move you have specified isn't ALLOWED. Pay attention to hints for choosing the direction correctly.\n{player.current_location}")
 
 # Write a loop that:
 #
